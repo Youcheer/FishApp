@@ -32,14 +32,24 @@
     <!-- jsPDF -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
+        :root {
+            color-scheme: light;
+        }
+
         .hidden-section {
             display: none !important;
+        }
+
+        body {
+            background: radial-gradient(circle at top right, rgba(0, 128, 128, 0.12), transparent 34%),
+                radial-gradient(circle at bottom left, rgba(0, 51, 102, 0.12), transparent 38%), #f1f5f9;
         }
 
         .active-nav {
             background-color: #008080 !important;
             border-radius: 0.5rem;
             color: #ffffff !important;
+            box-shadow: 0 12px 20px -14px rgba(0, 255, 255, 0.8);
         }
 
         @keyframes fadeIn {
@@ -69,11 +79,27 @@
             scrollbar-width: none;
             /* Firefox */
         }
+
+        .panel {
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 14px 40px -34px rgba(15, 23, 42, 0.5);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .panel:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 18px 45px -30px rgba(15, 23, 42, 0.4);
+        }
+
+        .glass-header {
+            background: linear-gradient(120deg, rgba(255, 255, 255, 0.9), rgba(248, 250, 252, 0.7));
+            backdrop-filter: blur(8px);
+        }
     </style>
 </head>
 
 <body
-    class="bg-gray-100 font-sans text-gray-800 antialiased selection:bg-ocean-500 selection:text-white overflow-hidden h-full w-full relative">
+    class="font-sans text-gray-800 antialiased selection:bg-ocean-500 selection:text-white overflow-hidden h-full w-full relative">
 
     <!-- Login Screen -->
     <div id="login-wrapper"
@@ -195,11 +221,11 @@
         </aside>
 
         <!-- Main Content -->
-        <main class="flex-1 flex flex-col h-full overflow-hidden w-full relative z-10">
+        <main class="flex-1 flex flex-col h-full overflow-hidden w-full relative z-10 md:m-3 md:rounded-2xl md:border md:border-slate-200/70 md:bg-white/60 md:backdrop-blur-sm md:shadow-xl md:shadow-slate-900/5">
 
             <!-- Header -->
             <header
-                class="bg-white/90 backdrop-blur shadow-sm px-4 py-3 md:px-6 md:py-4 flex justify-between items-center z-10 border-b border-gray-200 shrink-0">
+                class="glass-header shadow-sm px-4 py-3 md:px-6 md:py-4 flex justify-between items-center z-10 border-b border-gray-200 shrink-0 md:rounded-t-2xl">
                 <h2 id="page-title" class="text-xl font-bold text-ocean-900 border-l-4 border-ocean-500 pl-3">Dashboard
                 </h2>
                 <div class="flex items-center space-x-2 md:space-x-4">
@@ -258,7 +284,7 @@
                     <!-- Summary Cards -->
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8">
                         <div
-                            class="bg-white rounded-xl shadow-sm p-6 border-l-4 border-green-500 hover:shadow-md transition">
+                            class="panel bg-white rounded-xl p-6 border-l-4 border-green-500">
                             <div class="flex items-center justify-between">
                                 <div>
                                     <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider"
@@ -273,7 +299,7 @@
                             </div>
                         </div>
                         <div
-                            class="bg-white rounded-xl shadow-sm p-6 border-l-4 border-red-500 hover:shadow-md transition">
+                            class="panel bg-white rounded-xl p-6 border-l-4 border-red-500">
                             <div class="flex items-center justify-between">
                                 <div>
                                     <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider"
@@ -288,7 +314,7 @@
                             </div>
                         </div>
                         <div
-                            class="bg-white rounded-xl shadow-sm p-6 border-l-4 border-blue-500 hover:shadow-md transition">
+                            class="panel bg-white rounded-xl p-6 border-l-4 border-blue-500">
                             <div class="flex items-center justify-between">
                                 <div>
                                     <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Net
@@ -304,7 +330,7 @@
                             </div>
                         </div>
                         <div
-                            class="bg-white rounded-xl shadow-sm p-6 border-l-4 border-yellow-500 hover:shadow-md transition">
+                            class="panel bg-white rounded-xl p-6 border-l-4 border-yellow-500">
                             <div class="flex items-center justify-between">
                                 <div>
                                     <p
@@ -326,7 +352,7 @@
                     </div>
 
                     <!-- Charts -->
-                    <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+                    <div class="panel bg-white rounded-xl p-6 border border-gray-100">
                         <h3 class="text-lg font-bold text-ocean-900 mb-4 pb-2 border-b border-gray-100">Sales vs
                             Expenses
                             (Last 7 Days)</h3>
