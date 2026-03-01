@@ -1,0 +1,35 @@
+.hidden-section {
+    display: none !important;
+}
+
+.active-nav {
+    background-color: #008080 !important;
+    border-radius: 0.5rem;
+    color: #ffffff !important;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.content-section {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Hide scrollbar for horizontal scrolling nav */
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
