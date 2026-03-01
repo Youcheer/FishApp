@@ -1571,12 +1571,22 @@ btnGenReport.addEventListener('click', async () => {
         let purchasesForRep = await db.purchases.where('date').between(startObj, endObj, true, true).toArray();
         let wastageForRep = await db.wastage.where('date').between(startObj, endObj, true, true).toArray();
 
+        let shopCustomerIds = null;
         if (shopId !== 'all') {
             const sid = parseInt(shopId);
             sales = sales.filter(s => s.shopId === sid);
             exps = exps.filter(e => e.shopId === sid);
             purchasesForRep = purchasesForRep.filter(p => p.shopId === sid);
             wastageForRep = wastageForRep.filter(w => w.shopId === sid);
+
+            // Keep credit/payment metrics scoped to customers who bought on credit from this shop.
+            const shopCreditSales = await db.sales.where('shopId').equals(sid).toArray();
+            shopCustomerIds = new Set(
+                shopCreditSales
+                    .filter(s => s.paymentType === 'credit' && Number.isInteger(s.customerId))
+                    .map(s => s.customerId)
+            );
+            payments = payments.filter(p => shopCustomerIds.has(p.customerId));
         }
 
         const totalRev = sales.reduce((sum, s) => sum + s.totalAmount, 0);
@@ -1633,6 +1643,9 @@ btnGenReport.addEventListener('click', async () => {
         if (shopId !== 'all') {
             const sid = parseInt(shopId);
             allSales = allSales.filter(s => s.shopId === sid);
+            if (shopCustomerIds) {
+                allPayments = allPayments.filter(p => shopCustomerIds.has(p.customerId));
+            }
         }
         const totalCreditIssued = allSales.filter(s => s.paymentType === 'credit').reduce((sum, s) => sum + s.totalAmount, 0);
         const totalCreditPaid = allPayments.reduce((sum, p) => sum + p.amount, 0); // Note: In a real system, payments should be linked to shops or specific bills.
