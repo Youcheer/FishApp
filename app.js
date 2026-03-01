@@ -186,6 +186,7 @@ async function initApp() {
 
     await loadShopsIntoSelects();
     await loadMasterFish();
+    await populatePosCustomerDropdown();
 
     if (currentUser.role === 'shop_user') {
         const posShopSelect = document.getElementById('pos-shop');
@@ -2037,23 +2038,33 @@ window.setLowStockThreshold = () => {
 // CUSTOMERS & CREDIT LOGIC
 // =======================
 
-window.toggleCustomerSelect = () => {
+window.toggleCustomerSelect = async () => {
     const paymentType = document.querySelector('input[name="paymentType"]:checked').value;
     const container = document.getElementById('pos-customer-container');
+    const customerSelect = document.getElementById('pos-customer');
+
     if (paymentType === 'credit') {
+        await populatePosCustomerDropdown(customerSelect.value || '');
         container.classList.remove('hidden');
-        populatePosCustomerDropdown();
+        return;
     } else {
         container.classList.add('hidden');
+        customerSelect.value = '';
     }
 };
 
-async function populatePosCustomerDropdown() {
+async function populatePosCustomerDropdown(selectedCustomerId = '') {
     const select = document.getElementById('pos-customer');
     try {
         const customers = await db.customers.toArray();
+        const keepSelected = selectedCustomerId || select.value || '';
+
         select.innerHTML = '<option value="">Select Customer...</option>' +
             customers.map(c => `<option value="${c.id}">${c.name} ${c.phone ? ' - ' + c.phone : ''}</option>`).join('');
+
+        if (keepSelected && [...select.options].some(o => o.value === String(keepSelected))) {
+            select.value = String(keepSelected);
+        }
     } catch (e) { console.error(e); }
 }
 
