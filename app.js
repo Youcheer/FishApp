@@ -1719,6 +1719,52 @@ btnGenReport.addEventListener('click', async () => {
             });
         }
 
+        // --- Daily Sales Breakdown ---
+        const dailySalesTbody = document.getElementById('daily-sales-tbody');
+        const dailySalesContainer = document.getElementById('daily-sales-breakdown-container');
+        if (dailySalesTbody && dailySalesContainer) {
+            dailySalesTbody.innerHTML = '';
+
+            const dailyMap = {};
+            for (const sale of sales) {
+                if (!dailyMap[sale.date]) {
+                    dailyMap[sale.date] = {
+                        bills: 0,
+                        cashSales: 0,
+                        creditSales: 0,
+                        totalSales: 0
+                    };
+                }
+
+                dailyMap[sale.date].bills += 1;
+                dailyMap[sale.date].totalSales += sale.totalAmount;
+                if (sale.paymentType === 'credit') {
+                    dailyMap[sale.date].creditSales += sale.totalAmount;
+                } else {
+                    dailyMap[sale.date].cashSales += sale.totalAmount;
+                }
+            }
+
+            const sortedDailyRows = Object.entries(dailyMap).sort((a, b) => b[0].localeCompare(a[0]));
+            if (sortedDailyRows.length === 0) {
+                dailySalesContainer.classList.add('hidden');
+            } else {
+                dailySalesContainer.classList.remove('hidden');
+
+                for (const [date, data] of sortedDailyRows) {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td class="px-4 py-3 font-semibold text-gray-800">${date}</td>
+                        <td class="px-4 py-3 text-right text-gray-600">${data.bills.toLocaleString()}</td>
+                        <td class="px-4 py-3 text-right text-green-600">${data.cashSales.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                        <td class="px-4 py-3 text-right text-purple-600">${data.creditSales.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                        <td class="px-4 py-3 text-right font-bold text-blue-700">${data.totalSales.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                    `;
+                    dailySalesTbody.appendChild(tr);
+                }
+            }
+        }
+
         // --- Shop-wise Breakdown Matrix ---
         const tbody = document.getElementById('shop-breakdown-tbody');
         if (tbody) {
