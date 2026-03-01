@@ -975,6 +975,33 @@
                             </div>
                         </div>
 
+                        <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden mb-6"
+                            id="daily-sales-breakdown-container">
+                            <div class="p-5 border-b border-gray-100 bg-blue-50/40">
+                                <h3 class="text-lg font-bold text-ocean-900 border-l-4 border-blue-500 pl-3">Daily
+                                    Sales Breakdown</h3>
+                                <p class="text-xs text-gray-600 mt-1">Day-by-day sales summary for the selected
+                                    period.</p>
+                            </div>
+                            <div class="overflow-x-auto">
+                                <table class="w-full whitespace-nowrap text-left text-sm">
+                                    <thead
+                                        class="bg-blue-50/40 text-blue-900/70 text-xs font-bold tracking-wider uppercase border-b border-blue-100">
+                                        <tr>
+                                            <th class="px-4 py-3">Date</th>
+                                            <th class="px-4 py-3 text-right">Bills</th>
+                                            <th class="px-4 py-3 text-right">Cash Sales (LKR)</th>
+                                            <th class="px-4 py-3 text-right">Credit Sales (LKR)</th>
+                                            <th class="px-4 py-3 text-right">Total Sales (LKR)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="daily-sales-tbody" class="bg-white divide-y divide-gray-100 font-mono">
+                                        <!-- Dynamic content -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
                         <!-- Shop-wise Breakdown -->
                         <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden"
                             id="shop-breakdown-container">
